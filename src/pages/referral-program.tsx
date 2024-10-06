@@ -18,7 +18,7 @@ const ReferralProgram: FC = () => {
     if (referralsCode) {
       //console.log('code:', referralsCode)
       const message = 'Стань лидером сообщества!'
-      const url = `https://t.me/Curt_Gedel_bot/windows_taps?startapp=referrerId=${referralsCode}`
+      const url = `https://t.me/duck_taps_test_bot/duck_taps?startapp=referrerId=${referralsCode}`
       setReferralUrl(url)
       const tUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(message)}`;
       setTelegramUrl(tUrl)
