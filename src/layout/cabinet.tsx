@@ -17,14 +17,14 @@ import { WithLoader } from "@/components/loading"
 import { useRegister } from "@/hooks/api/useRegister"
 import { apiFetch } from "@/services/api"
 import ReferralProgram from "@/pages/referral-program"
+import useUpdateTasks from "@/hooks/api/useUpdateTasks"
 //import { useUpdateShop } from "@/hooks/api/useUpdateShop"
 //import useUpdateIncome from "@/hooks/api/useUpdateIncome"
 //import useUpdateReferrals from "@/hooks/api/useUpdateReferrals"
-//import useUpdateTasks from "@/hooks/api/useUpdateTasks"
 //import { useAllQuestsInfo } from "@/hooks/api/useAllQuestsInfo"
 //import Daily from "@/pages/daily"
 
-const INIT_DATA = ""
+const INIT_DATA = "user=%7B%22id%22%3A334222503%2C%22first_name%22%3A%22Sergey%22%2C%22last_name%22%3A%22Inozemcev%22%2C%22username%22%3A%22indiecaps%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=-6468909393877531784&chat_type=channel&auth_date=1728246229&hash=70383e82fea0af69750fe6bb91ad37080bd95a185b4c9c3fd7d4744517c874c2"
 
 const Cabinet:FC = () => {
 
@@ -32,21 +32,21 @@ const Cabinet:FC = () => {
   //const { updateShop } = useUpdateShop(apiFetch);
   //const { updateReferrals } = useUpdateReferrals(apiFetch, 1, 10);
   //const { updateIncome } = useUpdateIncome(apiFetch)
-  //const { updateTasks } = useUpdateTasks(apiFetch) 
+  const { updateTasks } = useUpdateTasks(apiFetch) 
   
   const [isLoading, setIsLoading] = useState(true);
 
   const loadResources = async () => {
-    //const apiRequests = [
+    const apiRequests = [
       //dailyQuestInfo(),  
       //allQuestsInfo(),
       //updateShop(),
       //updateIncome(),
       //updateReferrals(),
-      //updateTasks()
+      updateTasks()
       //
-    //];
-    //await Promise.all([...apiRequests],)
+    ];
+    await Promise.all([...apiRequests],)
   }
 
   const { register } = useRegister(apiFetch, loadResources);

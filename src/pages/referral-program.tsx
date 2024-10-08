@@ -10,7 +10,7 @@ const ReferralProgram: FC = () => {
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const referralsCode = ""
+  const referralsCode = "2"
 
   useEffect(() => {
     
