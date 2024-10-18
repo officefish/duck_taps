@@ -1,5 +1,6 @@
 
 import { useSiteStore } from "@/providers/store";
+import { useUserStore } from "@/providers/user";
 import { Page } from "@/types";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 //import { useNavigate } from "react-router-dom"
@@ -10,7 +11,7 @@ const ReferralProgram: FC = () => {
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const referralsCode = "2"
+  const { referralsCode } = useUserStore();
 
   useEffect(() => {
     
