@@ -6,23 +6,29 @@ import { useUserStore } from '@/providers/user';
 const useUpdateTasks = (apiFetch: any) => {
   const { enqueueSnackbar } = useSnackbar();
 
-  const { setDailyTasks, setSeasonTasks } = useUserStore();
+  const { setDailyTasks, setSeasonTasks, setTotalProgress } = useUserStore();
 
   const updateTasks = useCallback(
     async () => {
       try {
         const res = await apiFetch('/tasks', 'POST', {}, enqueueSnackbar);
 
-        // Filter tasks into dailyTasks and seasonTasks
-        const dailyTasks = res.filter((task: ITask) => task.templateTask.isDaily);
-        const seasonTasks = res.filter((task: ITask) => !task.templateTask.isDaily);
+        const tasks = res.tasks
 
-        // console.log('Daily Tasks:', dailyTasks);
-        // console.log('Season Tasks:', seasonTasks);
+        if (tasks) {
+          // Filter tasks into dailyTasks and seasonTasks
 
-        setDailyTasks(dailyTasks);
-        setSeasonTasks(seasonTasks);
-        
+          const dailyTasks = res.filter((task: ITask) => task.templateTask.isDaily);
+          const seasonTasks = res.filter((task: ITask) => !task.templateTask.isDaily);
+  
+          setDailyTasks(dailyTasks);
+          setSeasonTasks(seasonTasks);    
+        }
+
+        if (res.totalProgress) {
+          setTotalProgress(res.totalProgress);
+        }
+
         //console.log(res);
       } catch (error) {
         console.error('Error updating user tasks:', error);
