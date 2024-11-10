@@ -16,6 +16,7 @@ import {
     referralsCode: string
     dailyTasks: ITask[]
     seasonTasks: ITask[]
+    totalProgress: number
   }
   
   export interface IUserActions {
@@ -34,4 +35,5 @@ import {
     setReferralsCode: (code: string) => void
     setDailyTasks: (tasks: ITask[]) => void
     setSeasonTasks: (tasks: ITask[]) => void
+    setTotalProgress: (progress: number) => void
   }

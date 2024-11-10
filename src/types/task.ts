@@ -19,7 +19,8 @@ export interface ITask {
     templateTaskId: string
     playerId: string
     status: string
-    progress: number
+    progress?: number
+    max?: number
     createdAt: string | Date
     updatedAt?: string | Date
     finishedAt?: string | Date

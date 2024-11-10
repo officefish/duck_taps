@@ -8,6 +8,8 @@ type IUserStore = IUserState & IUserActions
 
 const createUserStore = () =>
   createStore<IUserStore>()((set, get) => ({
+    totalProgress: 0,
+    setTotalProgress: (progress) => set(() => ({ totalProgress: progress })),
     player: null,
     setPlayer: (player: IPlayer) => set(() => ({ player })),
     updatePlayerBalance: (balance: number) =>
@@ -120,7 +122,9 @@ export const useUserStore = () => {
     setReferralsPage: useStore(api, (state: IUserStore) => state.setReferralsPage),
     setReferralsCode: useStore(api, (state: IUserStore) => state.setReferralsCode),
     setDailyTasks: useStore(api, (state: IUserStore) => state.setDailyTasks),
-    setSeasonTasks: useStore(api, (state: IUserStore) => state.setSeasonTasks),    
+    setSeasonTasks: useStore(api, (state: IUserStore) => state.setSeasonTasks),
+    totalProgress: useStore(api, (state: IUserStore) => state.totalProgress),
+    setTotalProgress: useStore(api, (state: IUserStore) => state.setTotalProgress),    
   }
 }
 

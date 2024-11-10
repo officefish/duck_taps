@@ -1,9 +1,17 @@
-
 import { useSiteStore } from "@/providers/store";
 import { useUserStore } from "@/providers/user";
-import { Page } from "@/types";
+import { ITask, Page } from "@/types";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
-//import { useNavigate } from "react-router-dom"
+
+import { Link } from "react-router-dom";
+import { CompleteSvg, CopySvg, QuestionSvg } from "@/assets/svg/referral.tsx";
+
+import ProgressMini from "@/components/referral_program/progress.mini.tsx";
+import Duck from "@/components/referral_program/duck.tsx";
+import ModalStart from "@/components/referral_program/modal.start.tsx";
+import ModalTutorial from "@/components/referral_program/modal.tutorial.tsx";
+import ModalInfo from "@/components/referral_program/modal.info.tsx";
+import ProgressBar from "@/components/referral_program/progress.bar.tsx";
 
 const ReferralProgram: FC = () => {
 
@@ -15,7 +23,6 @@ const ReferralProgram: FC = () => {
 
   useEffect(() => {
     
-
     if (referralsCode) {
       //console.log('code:', referralsCode)
       const message = 'Стань лидером сообщества!'
@@ -25,7 +32,6 @@ const ReferralProgram: FC = () => {
       setTelegramUrl(tUrl)
     }
 
-    
   }, [referralsCode])
 
     const [referralUrl, setReferralUrl] = useState("link/ref=userandranders03Hf72nf5Nfa941412") 
@@ -69,185 +75,154 @@ const ReferralProgram: FC = () => {
     }
   }, [])
 
-
-
   useEffect(() => {
     setPage(Page.HOME);
   }, [setPage]);
 
-  const plusFive = "+5% к активности"
-  const plusTen = "+10% к активности"
-  const plusTwenty = "+20% к активности"
+  const [openModalStart, setOpenModalStart] = useState(false)
+  const [openModalTutorial, setOpenModalTutorial] = useState(false)
+  const [openModalInfo, setOpenModalInfo] = useState(false)
 
-    return (
-    <div className='w-full'>
-        
-        {/* Activity widget */}
-        <div className="w-full px-8">
-            <div className="label">
-                <span className="label-text">Активность (вклад в сообщество)</span>
-            </div>
-            <input type="range" min={0} max="100" value="25" className="range range-secondary" step="25" />
-            <div className="flex w-full justify-between px-2 text-xs">
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-            </div>
-            <div className="flex w-full justify-between px-2 pt-2 text-xs">
-                <span>0</span>
-                <span>25</span>
-                <span>50</span>
-                <span>75</span>
-                <span>100</span>
-            </div>
+  // TODO: Change to store
+  const [character, setCharacter] = useState('')
+
+  useEffect(() => {
+    const isTutorialComplete = localStorage.getItem('tutorial_complete')
+    const characterSelected = localStorage.getItem('character') // TODO: Change to Store
+
+    if (!isTutorialComplete) setOpenModalTutorial(true)
+
+    // TODO: Change to Store
+    if (!characterSelected) {
+      setOpenModalStart(true)
+    } else {
+      setCharacter(characterSelected)
+    }
+  }, []);
+
+  
+  const { dailyTasks, seasonTasks, totalProgress } = useUserStore()
+
+  return (
+    <div className='referral-program w-full flex flex-col gap-10'>
+      {/* Activity widget */}
+      <div className="activity flex w-full items-center">
+        <div className="flex w-full items-center">
+          <div className="activity-avatar referral-program-shadow">
+            <img src="referral_program/avatar.png" alt='avatar'/>
+          </div>
+
+          {/* TODO: current_value, max_value*/}
+          <ProgressBar value={totalProgress} max={100}/>
         </div>
 
-        {/* Toy widget */}
-        <div className="w-full px-4 pt-4 flex flex-row items-center justify-center gap-1">
-            <img className="w-24 h-24 btn-no-body" src="referral_program/toy1.png" alt="toy1" />
-            <img className="w-24 h-24 btn-no-body" src="referral_program/toy2.png" alt="toy2" />
+        <div className="activity-info" onClick={() => setOpenModalInfo(true)}>
+          <QuestionSvg />
+        </div>
+      </div>
+
+      {/* Duck */}
+      <div className="duck-wrapper flex align-middle justify-center">
+        <Duck character={character}/>
+      </div>
+
+      {/* Quest */}
+      <div className="relative quest-wrapper flex flex-col gap-2">
+        <div className="ocean">
+          <div className="wave"></div>
+          <div className="wave"></div>
+          <div className="wave"></div>
         </div>
 
-        {/* Baunty results table */}
-        <div className="overflow-x-auto pb-24">
-            <table className="table table-zebra">
-            {/* head */}
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Задания</th>
-                    <th>Награда</th>
-                    <th>Прогресс</th>
-                </tr>
-            </thead>
-            <tbody>
-            {/* row 1 */}
-                <tr>
-                    <th>1</th>
-                    <td>Пригласи пять друзей</td>
-                    <td>{plusFive}</td>
-                    <td>0/5</td>
-                </tr>
-            {/* row 2 */}
-                <tr>
-                    <th>2</th>
-                    <td>Пригласи 10 друзей</td>
-                    <td>{plusFive}</td>
-                    <td>0/10</td>
-                </tr>
-            {/* row 3 */}
-                <tr>
-                    <th>3</th>
-                    <td>Пригласи 50 друзей</td>
-                    <td>{plusFive}</td>
-                    <td>0/50</td>
-                </tr>
-            {/* row 4 */}
-                <tr>
-                    <th>4</th>
-                    <td>Пригласи 100 друзей</td>
-                    <td>{plusFive}</td>
-                    <td>0/100</td>
-                </tr>
-            {/* row 5 */}
-                <tr>
-                    <th>5</th>
-                    <td>Пригласи 1000 друзей</td>
-                    <td>{plusFive}</td>
-                    <td>0/1000</td>
-                </tr>
-
-            {/* row 6 */}
-                <tr>
-                    <th>6</th>
-                    <td>Пригласи 5 premium друзей</td>
-                    <td>{plusTen}</td>
-                    <td>0/5</td>
-                </tr>
-
-            {/* row 7 */}
-                <tr>
-                    <th>7</th>
-                    <td>Ежедневные приглашения</td>
-                    <td>{plusFive}</td>
-                    <td>0/5</td>
-                </tr>
-
-            {/* row 8 */}
-                <tr>
-                    <th>8</th>
-                    <td>Ежедневные приглашения</td>
-                    <td>{plusTen}</td>
-                    <td>0/10</td>
-                </tr>
-
-             {/* row 9 */}
-                <tr>
-                    <th>9</th>
-                    <td>Ежедневные приглашения</td>
-                    <td>{plusTwenty}</td>
-                    <td>0/30</td>
-                </tr>
-
-            {/* row 10 */}
-                <tr>
-                    <th>10</th>
-                    <td>Ежедневные приглашения</td>
-                    <td>{plusTen}</td>
-                    <td>0/10</td>
-                </tr>
-
-            {/* row 11 */}
-                <tr>
-                    <th>11</th>
-                    <td>Потапай по персонажу</td>
-                    <td>{plusFive}</td>
-                    <td>0/1000</td>
-                </tr>
-
-            {/* row 12 */}
-                <tr>
-                    <th>12</th>
-                    <td>Потапай по персонажу</td>
-                    <td>{plusFive}</td>
-                    <td>0/10000</td>
-                </tr>
-
-            {/* row 12 */}
-                <tr>
-                    <th>13</th>
-                    <td>Потапай по персонажу</td>
-                    <td>{plusFive}</td>
-                    <td>0/100000</td>
-                </tr>
-
-            </tbody>
-          </table>
+        <div className="quest-title-list">
+          <div className="">Задание</div>
+          <div className="">Прогресс</div>
+          <div className="">Награда</div>
         </div>
 
-        <div className="fixed left-0 bottom-0 h-24 w-full 
-        flex items-center justify-center gap-2">
-            <button 
-            className="btn btn-wide btn-accent"
-            onClick={handleShare}
-            >Поделиться</button>
-            <button 
-            className="btn btn-accent"
+        <div className="quest-list">
+          {dailyTasks?.map((task) => (
+            <TaskItem task={task} key={task.id} />
+          ))}
+          {seasonTasks?.map((task) => (
+            <TaskItem task={task} key={task.id} />
+          ))}
+        </div>
+
+        {/* Button */}
+        <div className="mb-5 mt-3 w-full flex items-center justify-center gap-2">
+          <button className="btn flex-1 btn-wide button" onClick={handleShare}>Поделиться</button>
+          <button
+            className="btn button"
             onClick={handleCopy}
-            >
-                <img className="w-6 h-6" src="/friends/copy.png" alt="copy" />
-            </button>
+          >
+            <CopySvg/>
+          </button>
         </div>
-        
-        <textarea
+      </div>
+
+      {/* Modals */}
+      <ModalInfo isOpen={openModalInfo} close={() => setOpenModalInfo(false)}/>
+      <ModalTutorial isOpen={openModalTutorial} close={() => setOpenModalTutorial(false)}/>
+      <ModalStart
+        isOpen={openModalStart}
+        close={() => setOpenModalStart(false)}
+        setCharacter={(char: any) => setCharacter(char)}
+      />
+
+      <textarea
         ref={textAreaRef}
         className="invisible"
-        style={{ position: 'absolute', left: '-9999px' }}
+        style={{position: 'absolute', left: '-9999px'}}
         readOnly
       />
     </div>
-   )
+  )
 }
-export default ReferralProgram
+
+
+export default ReferralProgram;
+
+interface TaskItemProps {
+  task: ITask
+}
+
+function isComplete(task: ITask): boolean {
+  return task.status === 'READY' || task.status === "COMPLETED"
+}
+
+const TaskItem: FC<TaskItemProps> = (props) => {
+  const [complete, setComplete] = useState(false)
+  const [link, setLink] = useState('')
+  const [reward, setReward] = useState(0)
+  const [value, setValue] = useState(0)
+  const [max, setMax] = useState(0)
+  const [title, setTitle] = useState('')
+
+  useEffect(() => {
+    setComplete( isComplete(props.task))
+    setLink(props.task.templateTask.navigate)
+    setReward(props.task.templateTask.baunty || 0)
+    setValue(props.task.progress || 0)
+    setMax(props.task.max || 0)
+    setTitle(props.task.templateTask.title)
+  }, [props.task])
+  
+  return (
+    <div className="quest-item" key={title}>
+      <div className="quest-title">{title}</div>
+        {complete 
+        ? (
+          <div className="flex justify-center"><CompleteSvg/></div>
+        ) : link
+          ? (
+            <Link className="quest-button" to={link}>Открыть</Link>
+          ) : (
+            // TODO: current_value, max_value
+          <ProgressMini value={value} max={max}></ProgressMini>
+          )
+        }
+        <div className="quest-bounty">{reward}%</div>
+    </div>
+  )
+}
