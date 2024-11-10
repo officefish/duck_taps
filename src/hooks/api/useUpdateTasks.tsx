@@ -18,8 +18,8 @@ const useUpdateTasks = (apiFetch: any) => {
         if (tasks) {
           // Filter tasks into dailyTasks and seasonTasks
 
-          const dailyTasks = res.filter((task: ITask) => task.templateTask.isDaily);
-          const seasonTasks = res.filter((task: ITask) => !task.templateTask.isDaily);
+          const dailyTasks = tasks.filter((task: ITask) => task.templateTask.isDaily);
+          const seasonTasks = tasks.filter((task: ITask) => !task.templateTask.isDaily);
   
           setDailyTasks(dailyTasks);
           setSeasonTasks(seasonTasks);    
