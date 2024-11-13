@@ -20,7 +20,7 @@ export interface ITask {
     playerId: string
     status: string
     progress?: number
-    max?: number
+    maxProgress?: number
     createdAt: string | Date
     updatedAt?: string | Date
     finishedAt?: string | Date

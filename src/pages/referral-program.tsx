@@ -204,7 +204,7 @@ const TaskItem: FC<TaskItemProps> = (props) => {
     setLink(props.task.templateTask.navigate)
     setReward(props.task.templateTask.baunty || 0)
     setValue(props.task.progress || 0)
-    setMax(props.task.max || 0)
+    setMax(props.task.maxProgress || props.task.templateTask.target || 0)
     setTitle(props.task.templateTask.title)
   }, [props.task])
   
