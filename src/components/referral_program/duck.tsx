@@ -48,11 +48,11 @@ const Duck: FC<IDuckProps> = (props) => {
     // Таймер для возврата масштаба к норме
     if (clickTimeout.current) clearTimeout(clickTimeout.current);
     clickTimeout.current = setTimeout(() => setIsClicked(false), 100);
-
-    console.log('click');
-
-    onDown && onDown()
   };
+
+  const handleDown = () => {
+    onDown && onDown()
+  }
 
   // Обновляем состояние на основе скорости кликов
   useEffect(() => {
@@ -82,12 +82,13 @@ const Duck: FC<IDuckProps> = (props) => {
   }, [clicksPerSecond, tempCharacterInit]);
 
   return (
-    <div onTouchEnd={handleClick} onMouseDown={handleClick}>
+    <div onTouchEnd={handleDown} onMouseDown={handleDown}>
        <animated.img
       src={`referral_program/${state}.png`}
       style={{
         transform: scale.to((s) => `scale(${s})`),
       }}
+      onClick={handleClick}
       alt="Duck"
     />
     </div>
