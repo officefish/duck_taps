@@ -12,6 +12,7 @@ import ModalStart from "@/components/referral_program/modal.start.tsx";
 import ModalTutorial from "@/components/referral_program/modal.tutorial.tsx";
 import ModalInfo from "@/components/referral_program/modal.info.tsx";
 import ProgressBar from "@/components/referral_program/progress.bar.tsx";
+import useTapper from "@/hooks/useTapper";
 
 const ReferralProgram: FC = () => {
 
@@ -103,6 +104,8 @@ const ReferralProgram: FC = () => {
   
   const { dailyTasks, seasonTasks, totalProgress } = useUserStore()
 
+  const { handleDown } = useTapper();
+
   return (
     <div className='referral-program w-full flex flex-col gap-10'>
       {/* Activity widget */}
@@ -123,7 +126,7 @@ const ReferralProgram: FC = () => {
 
       {/* Duck */}
       <div className="duck-wrapper flex align-middle justify-center">
-        <Duck character={character}/>
+        <Duck character={character} onDown={handleDown}/>
       </div>
 
       {/* Quest */}

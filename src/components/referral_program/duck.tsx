@@ -3,12 +3,17 @@ import {FC, useEffect, useRef, useState} from 'react';
 
 interface IDuckProps {
   character?: string,
+  onTouch?: () => void,
+  onDown?: () => void
 }
 
 // TODO: Delete after adding store
 const baseCharacter = 'male'
 
-const Duck: FC<IDuckProps> = ({character}) => {
+const Duck: FC<IDuckProps> = (props) => {
+
+  const { character, onDown } = props
+
   const tempCharacterInit = character || baseCharacter
 
   const [state, setState] = useState(tempCharacterInit);
@@ -43,6 +48,8 @@ const Duck: FC<IDuckProps> = ({character}) => {
     // Таймер для возврата масштаба к норме
     if (clickTimeout.current) clearTimeout(clickTimeout.current);
     clickTimeout.current = setTimeout(() => setIsClicked(false), 100);
+
+    onDown && onDown()
   };
 
   // Обновляем состояние на основе скорости кликов
@@ -78,7 +85,8 @@ const Duck: FC<IDuckProps> = ({character}) => {
       style={{
         transform: scale.to((s) => `scale(${s})`),
       }}
-      onClick={handleClick}
+      onMouseDown={handleClick}
+      onTouchEnd={handleClick}
       alt="Duck"
     />
   );
