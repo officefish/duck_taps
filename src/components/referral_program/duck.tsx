@@ -82,15 +82,16 @@ const Duck: FC<IDuckProps> = (props) => {
   }, [clicksPerSecond, tempCharacterInit]);
 
   return (
-    <animated.img
+    <div onTouchEnd={handleClick} onMouseDown={handleClick}>
+       <animated.img
       src={`referral_program/${state}.png`}
       style={{
         transform: scale.to((s) => `scale(${s})`),
       }}
-      onClick={handleClick}
-      onTouchEnd={handleClick}
       alt="Duck"
     />
+    </div>
+   
   );
 };
 
