@@ -107,7 +107,6 @@ const ReferralProgram: FC = () => {
   const { handleDown } = useTapper();
 
   const onHandleDown = () => {
-    console.log('onHandleDown')
     handleDown()
   }
 
