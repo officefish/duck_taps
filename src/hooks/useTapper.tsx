@@ -32,8 +32,6 @@ const useTapper = () => {
         tapsBonus = regularBonus
         tapsBonus += touchBonus
         setRegularBonus(tapsBonus)
-
-        console.log(tapsBonus)
     
         setTaps(taps + 1)
         if (taps >= 50) {
@@ -56,7 +54,7 @@ const useTapper = () => {
             regularBonus: number, 
         ) => {
 
-        console.log('regularBonus: ' + regularBonus)
+        //console.log('regularBonus: ' + regularBonus)
        
         tick({
             taps: regularBonus,
