@@ -9,24 +9,19 @@ const useTapper = () => {
     const { player } = useUserStore();
     const { 
         balance, 
-        setBalance,
+        //setBalance,
         regularBonus,
-        isRegular,
+        //isRegular,
         setRegularBonus,
-        setNetworkBonus,
-        setIsRegular,
+        //setNetworkBonus,
+        //setIsRegular,
         taps,
         setTaps
     } = useTapsStore()
 
 
-    const onSuccess = useCallback(async (balance: number | null) => {
-        
+    const onSuccess = useCallback(async () => {
         setRegularBonus(0)
-        
-        if (balance) {
-            setBalance(balance)
-        }
     }, [])
 
     const { tick } = useTasksTick(apiFetch, onSuccess);
