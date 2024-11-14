@@ -87,7 +87,7 @@ const Duck: FC<IDuckProps> = (props) => {
       style={{
         transform: scale.to((s) => `scale(${s})`),
       }}
-      onMouseDown={handleClick}
+      onClick={handleClick}
       onTouchEnd={handleClick}
       alt="Duck"
     />
