@@ -4,8 +4,6 @@ import { useUserStore } from "@/providers/user";
 import { useTapsStore } from "@/providers/tap";
 import { useTasksTick } from "./api/useTasksTick";
 
-const TICK_INTERVAL = 10_000
-
 const useTapper = () => {
 
     const { player } = useUserStore();
@@ -23,7 +21,7 @@ const useTapper = () => {
 
 
     const onSuccess = useCallback(async (balance: number | null) => {
-        setIsRegular(true)
+        
         setRegularBonus(0)
         
         if (balance) {
@@ -34,20 +32,16 @@ const useTapper = () => {
     const { tick } = useTasksTick(apiFetch, onSuccess);
 
     const touch = (touchBonus: number) => {
-        
-        if (!isRegular) return
-        
+                
         let tapsBonus
-        
         tapsBonus = regularBonus
         tapsBonus += touchBonus
         setRegularBonus(tapsBonus)
-    
-        setBalance((player?.balance || 0) + touchBonus)   
 
+        console.log(tapsBonus)
+    
         setTaps(taps + 1)
         if (taps >= 50) {
-            console.log("taps " + taps)
             setTaps(0)
             farmInterval(tapsBonus)
         }
@@ -73,16 +67,14 @@ const useTapper = () => {
             taps: regularBonus,
         })
 
-        setIsRegular(false)
         setRegularBonus(0)
-        setNetworkBonus(0)
-    }, [tick, setIsRegular, setNetworkBonus])
+    }, [tick])
 
 
     useEffect(() => {
         const interval = setInterval(() => farmInterval(
             regularBonus, 
-        ), TICK_INTERVAL);
+        ), 10_000);
         // Очищаем интервал при размонтировании компонента
         return () => clearInterval(interval);
       }, [regularBonus, player]);
