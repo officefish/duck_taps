@@ -49,6 +49,8 @@ const Duck: FC<IDuckProps> = (props) => {
     if (clickTimeout.current) clearTimeout(clickTimeout.current);
     clickTimeout.current = setTimeout(() => setIsClicked(false), 100);
 
+    console.log('click');
+
     onDown && onDown()
   };
 
