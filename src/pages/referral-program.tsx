@@ -106,6 +106,11 @@ const ReferralProgram: FC = () => {
 
   const { handleDown } = useTapper();
 
+  const onHandleDown = () => {
+    console.log('onHandleDown')
+    handleDown()
+  }
+
   return (
     <div className='referral-program w-full flex flex-col gap-10'>
       {/* Activity widget */}
@@ -126,7 +131,7 @@ const ReferralProgram: FC = () => {
 
       {/* Duck */}
       <div className="duck-wrapper flex align-middle justify-center">
-        <Duck character={character} onDown={handleDown}/>
+        <Duck character={character} onDown={onHandleDown}/>
       </div>
 
       {/* Quest */}
