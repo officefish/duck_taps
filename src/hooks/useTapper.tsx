@@ -66,6 +66,8 @@ const useTapper = () => {
         async (
             regularBonus: number, 
         ) => {
+
+        console.log(regularBonus)
        
         tick({
             taps: regularBonus,
